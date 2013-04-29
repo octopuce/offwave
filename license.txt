@@ -1,0 +1,22 @@
+OFFWAVE - OFFline Web Application Version Extraction
+Copyright (C) 2013 Alban Crommer, Benjamin Sonntag
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    The COPYRIGHT file contains the complete GNU General Public License.
+
+Authors:
+ Alban Crommer - alban AT octopuce DOT fr
+ Benjamin Sonntag - benjamin AT sonntag DOT fr
+
+Note:
+ If you want to use it using another opensource license (such as BSD or MOZ)
+ or proprietary one, please contact us.
