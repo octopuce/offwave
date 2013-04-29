@@ -14,15 +14,21 @@ $offwave_configuration = array(
 //    )
 );
 
+// Starts the scanner
+$offwave_scanner = new Offwave_Scanner( $offwave_configuration );
+
+// Loop through accounts 
+
 // Sets the scanned path
 // For the sake of the demo, we identify a dummy CMS in the folder
 // Note : you should really use absolute path
-$path = __DIR__."/../tests/Cms/Spip/1.6";
+$path = __DIR__."/../tests/Cms/Spip/2.0";
 
-// Start the scanner
-$offwave_scanner = new Offwave_Scanner( $offwave_configuration );
+Offwave_Scanner::$do_debug = TRUE;
 
 $offwave_result = $offwave_scanner->scan( $path );
+
+print_r( Offwave_Scanner::debug());
 
 print_r($offwave_result);
 

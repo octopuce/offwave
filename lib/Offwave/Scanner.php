@@ -33,6 +33,22 @@ class Offwave_Scanner{
     private $dbAccounts         = array();
     
     /**
+     * Flag for activating debug
+     * 
+     * @see Offwave_Scanner::debug
+     * @var bool
+     */
+    static $do_debug            = FALSE;
+    
+    /**
+     * Stores debug messages
+     *
+     * @see Offwave_Scanner::debug
+     * @var array
+     */
+    private static $debugContainer      = array();
+    
+    /**
      * Stores path => type => bool information for a given root path
      * 
      * @var array
@@ -63,6 +79,20 @@ class Offwave_Scanner{
       
         
     }
+    
+    /**
+     * Getter / Setter for debug container
+     * 
+     * @param type $msg
+     * @return array
+     */
+    static function debug($msg = NULL ){
+        if( NULL !== $msg && TRUE === self::$do_debug){
+            self::$debugContainer[] = $msg;
+            return;
+        }
+        return self::$debugContainer;
+    }
 
     function scan($path){
 
@@ -70,13 +100,14 @@ class Offwave_Scanner{
             throw new Offwave_Exception("Scanner path cannot be null",1);
         }
         
-        // 1. Attempts to identify CMS
+        // 1. Attempts to identify application
         $result                                     = array();
         $webApplicationData                         = array();
-        foreach( $this->agentsList as $agent_label => $agent_instance){
-            $result = $agent_instance->identifyApplication($path);
+        foreach( $this->agentsList as $agent_label => $agentInstance){
+            Offwave_Scanner::debug("[1]  Attempting to identify {$agentInstance->getApplicationType()} {$agent_label}");
+            $result = $agentInstance->identifyApplication($path);
             if(count($result)){
-                $matchingAgents [$agent_label]      = $agent_instance;
+                $matchingAgents [$agent_label]      = $agentInstance;
                 $webApplicationData[$agent_label]   = $result;
                 // Skips if aggressivity is low
                 if($this->aggressivity < self::AGRESSIVITY_MEDIUM){
@@ -91,16 +122,16 @@ class Offwave_Scanner{
         }
 
         // 2. Attempts to get application versions
-        foreach($matchingAgents as $agent_label => $agent_instance){
-            $webApplicationData[$agent_label]       = $agent_instance->identifyVersion( array(
+        foreach($matchingAgents as $agent_label => $agentInstance){
+            $webApplicationData[$agent_label]       = $agentInstance->identifyVersion( array(
                     "path"                  => $path,
                     "webApplicationData"    => $webApplicationData[$agent_label]
             ));
         }
 
         // 3. Attempts to identifivy plugins and their versions
-        foreach($matchingAgents as $agent_label => $agent_instance){
-            $webApplicationData[$agent_label]       = $agent_instance->identifyModules( array(
+        foreach($matchingAgents as $agent_label => $agentInstance){
+            $webApplicationData[$agent_label]       = $agentInstance->identifyModules( array(
                     "path"                  => $path,
                     "webApplicationData"    => $webApplicationData[$agent_label]
             ));
@@ -136,8 +167,8 @@ class Offwave_Scanner{
             // Loops through multiple unknown files
             foreach (new DirectoryIterator($dir_agent_path) as $fileInfo) {
                 if( ! $fileInfo->isDot() && ! $fileInfo->isDir() ){
-                    require_once $fileInfo->getPathname();
                     if( preg_match("/([A-Za-z0-9]+)\.php/",$fileInfo->getFilename(),$matches)){
+                        require_once $fileInfo->getPathname();
                         $agent_name                         = $matches[1];
                         $class_name                         = "Offwave_Agents_{$agent_type}_{$agent_name}";
                         $agentInstance                      = new $class_name($this->agentConfiguration);

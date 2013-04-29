@@ -52,6 +52,15 @@ class Offwave_Agents_Abstract{
         
     }
     
+    
+    protected function _debug( $msg ){
+    
+        if( TRUE === Offwave_Scanner::do_debug ){
+            Offwave_Scanner::debug($msg);
+        }
+    }
+
+
     /**
      * Virtual method
      */
@@ -63,14 +72,12 @@ class Offwave_Agents_Abstract{
      * Virtual method
      */
     public function identityVersion($path){
-        throw new Offwave_Exception("This method requires to be overriden.");
     }
     
     /**
      * Virtual method
      */
     public function identifyPlugins($path){
-        throw new Offwave_Exception("This method requires to be overriden.");
     }
     
     /**
@@ -82,6 +89,7 @@ class Offwave_Agents_Abstract{
         
         $appplicationTrees = $this->_loadConfigurationFile($this->config["application_tree_file"]);
         foreach($appplicationTrees as $application_version => $applicationTree){
+            Offwave_Scanner::debug(" [?] Is version {$application_version} ?");
             if($this->_matchTree(array("tree" => $applicationTree,"path" => $path))){
                 return array(
                     "application"   => $this->getApplicationName(),
@@ -180,10 +188,11 @@ class Offwave_Agents_Abstract{
             }
             $this->pathCache[$file_path][$file_type]    = $assertion;
             if( ! $assertion ){
+                Offwave_Scanner::debug("  [-] Invalid, {$file_path} is not a {$file_type}");
                 return FALSE;
             }
         }
-        
+        Offwave_Scanner::debug("  [+] Matched tree successfully.");
         return TRUE;
 
     }
