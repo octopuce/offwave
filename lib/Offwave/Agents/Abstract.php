@@ -95,6 +95,14 @@ class Offwave_Agents_Abstract{
     private function _identifyApplicationTree($path){
         
         $appplicationTrees = $this->_loadConfigurationFile($this->config["application_tree_file"]);
+	// If we have a [allversion] bloc, we MUST match before testing anything else.
+	if (isset($appplicationTrees["allversion"])) {
+	  Offwave_Scanner::debug(" [?] Is version {allversion} ?");
+	  if(!$this->_matchTree(array("tree" => $appplicationTrees["allversion"], "path" => $path))) {
+	    return array();
+	  }
+	  unset($appplicationTrees["allversion"]);
+	}
         foreach($appplicationTrees as $application_version => $applicationTree){
             Offwave_Scanner::debug(" [?] Is version {$application_version} ?");
             if($this->_matchTree(array("tree" => $applicationTree,"path" => $path))){
@@ -104,9 +112,7 @@ class Offwave_Agents_Abstract{
                 );
             }
         }
-        
         return array();
-        
     }
     
     /**
