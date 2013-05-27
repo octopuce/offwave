@@ -63,6 +63,7 @@ class Offwave_Agents_Abstract{
 
     /**
      * Virtual method
+     * @return array the attributes of the found application or an empty array.
      */
     public function identifyApplication($path){
         return $this->_identifyApplicationTree($path);
@@ -70,14 +71,20 @@ class Offwave_Agents_Abstract{
     
     /**
      * Virtual method
+     * @param array $parameters array which contains the array keys returned by previous check.
+     * @return array the attributes of the found version of application, or an empty or unchanged array.
      */
-    public function identityVersion($path){
+    public function identityVersion($path,$parameters){
+      return $parameters;
     }
     
     /**
      * Virtual method
+     * @param array $parameters array which contains the array keys returned by previous check.
+     * @return array the attributes of the found modules of application, or an empty or unchanged array.
      */
-    public function identifyPlugins($path){
+    public function identifyPlugins($path,$parameters){
+      return $parameters;
     }
     
     /**
@@ -188,7 +195,7 @@ class Offwave_Agents_Abstract{
             }
             $this->pathCache[$file_path][$file_type]    = $assertion;
             if( ! $assertion ){
-                Offwave_Scanner::debug("  [-] Invalid, {$file_path} is not a {$file_type}");
+                Offwave_Scanner::debug("  [-] Invalid, {$file_path} is not a {$file_type}");
                 return FALSE;
             }
         }
@@ -228,7 +235,7 @@ class Offwave_Agents_Abstract{
     }
     
     /**
-     * Sets a persistent cache located on Offwave_Scanner
+     * Set a persistent cache located on Offwave_Scanner
      * 
      * @param array $cache
      * @return \Offwave_Agents_Abstract

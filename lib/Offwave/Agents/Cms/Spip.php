@@ -13,16 +13,13 @@ class Offwave_Agents_Cms_Spip extends Offwave_Agents_Abstract {
 //		
 //    }
     
-    public function identifyVersion($options){
-        
-        return $options["webApplicationData"];
+  public function identifyVersion($path,$parameters) {      
+    return $parameters;
     }
     
     
-    public function identifyModules($options){
-
-        return $options["webApplicationData"];
-        
-    }
+  public function identifyModules($path,$parameters) {
+    return $parameters;
+  }
     
 }
