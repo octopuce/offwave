@@ -2,9 +2,10 @@
 
 # This script create <applicationname>-<version>.file and <applicationname>-<version>.folder files in the testenv/ folder for a specific application.
 
+CMS="$1"
 cd testenv
 
-for i in JOOMLA-*
+for i in ${CMS}-*
 do 
     echo -n "$i ..."
     cd $i 
