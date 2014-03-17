@@ -23,7 +23,7 @@ class Offwave_Agents_Cms_Spip extends Offwave_Agents_Abstract {
               $version = $matches[1];
               return array(
                 "application"   => $this->getApplicationName(),
-                "version"       => $version
+                "version"       => "SPIP-".$version
                 );
           }
       }
