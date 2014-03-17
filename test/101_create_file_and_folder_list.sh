@@ -6,7 +6,8 @@ CMS="$1"
 cd testenv
 
 for i in ${CMS}-*
-do 
+do
+    if [ ! -d $i ]; then continue; fi;
     echo -n "$i ..."
     cd $i 
     find -type d >../${i}.folder
