@@ -109,9 +109,8 @@ class Offwave_Scanner{
         if( null == $path ){
             throw new Offwave_Exception("Scanner path cannot be null",1);
         }
-	$depth=intval($depth);
-        
-	$pathResult=array();
+	$depth                                      = intval($depth);
+	$pathResult                                 = array();
      	$this->_scanDepth($path, $pathResult, $depth);
 	return $pathResult;
     }

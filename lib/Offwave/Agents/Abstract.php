@@ -94,25 +94,33 @@ class Offwave_Agents_Abstract{
      */
     private function _identifyApplicationTree($path){
         
-        $appplicationTrees = $this->_loadConfigurationFile($this->config["application_tree_file"]);
-	// If we have a [allversion] bloc, we MUST match before testing anything else.
-	if (isset($appplicationTrees["allversion"])) {
-	  Offwave_Scanner::debug(" [?] Is version {allversion} ?");
-	  if(!$this->_matchTree(array("tree" => $appplicationTrees["allversion"], "path" => $path))) {
-	    return array();
-	  }
-	  unset($appplicationTrees["allversion"]);
+        $applicationTrees = $this->_loadConfigurationFile($this->config["application_tree_file"]);
+        $knownVersion = array();
+        // If we have a [allversion] bloc, we MUST match before testing anything else.
+	if (isset($applicationTrees["allversion"]) ) {
+            if( count($applicationTrees["allversion"]) ){
+                Offwave_Scanner::debug(" [?] Is version {allversion} ?");
+                if($this->_matchTree(array("tree" => $applicationTrees["allversion"], "path" => $path))) {
+                    $knownVersion = array(
+                        "application"   => $this->getApplicationName(),
+                        "version"       => "unidentified"
+                    );
+                }else{
+                  return array();
+                }
+            }
+	  unset($applicationTrees["allversion"]);
 	}
-        foreach($appplicationTrees as $application_version => $applicationTree){
+        foreach($applicationTrees as $application_version => $applicationTrees){
             Offwave_Scanner::debug(" [?] Is version {$application_version} ?");
-            if($this->_matchTree(array("tree" => $applicationTree,"path" => $path))){
-                return array(
+            if($this->_matchTree(array("tree" => $applicationTrees,"path" => $path))){
+                $knownVersion = array(
                     "application"   => $this->getApplicationName(),
                     "version"       => $application_version
                 );
             }
         }
-        return array();
+        return $knownVersion;
     }
     
     /**
@@ -179,7 +187,8 @@ class Offwave_Agents_Abstract{
         } else {
             throw new Exception(_("Missing path."), self::ERR_MISSING_PARAMETER);
         }
-        foreach( $tree as $file_path => $file_type){
+        foreach( $tree as $file_path => $file_type ){
+            
             $assertion              = FALSE;
             $file_path              = "{$path}/{$file_path}";
             if(array_key_exists($file_path, $this->pathCache) && array_key_exists($file_type, $this->pathCache[$file_path])){
