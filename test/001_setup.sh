@@ -11,6 +11,7 @@ mkdir -p testenv
 cd testenv
 cat ../cms.txt | while read CMS VERSION MODE URL
 do
+echo $CMS $VERSION $MODE $URL
     if [ -d "${CMS}-${VERSION}" ]
 	then
 	echo "Skipping ${CMS}-${VERSION}: already exists"

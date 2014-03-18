@@ -4,10 +4,12 @@
 
 CMS="$1"
 cd testenv
-
+WD=`pwd`
 for i in ${CMS}-*
 do
     if [ ! -d $i ]; then continue; fi;
+    COUNT=`ls $WD/$i|wc -l`;
+    if [ 0 == $COUNT ]; then echo "skipping empty folder $i"; continue; fi;
     echo -n "$i ..."
     cd $i 
     find -type d >../${i}.folder
