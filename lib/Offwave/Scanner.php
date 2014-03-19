@@ -68,7 +68,7 @@ class Offwave_Scanner{
             $agentsDirectories = $options["agents_directories"];
         }else{
             $agentsDirectories = array(
-              "Cms","Frameworks"  
+              "Cms"
             );
         }
         
