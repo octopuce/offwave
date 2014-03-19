@@ -11,7 +11,7 @@ class Offwave_Agents_Cms_Wordpress extends Offwave_Agents_Abstract {
      * @param type $parameters
      * @return type
      */
-    public function identityVersion($path,$parameters){
+    public function identifyVersion($path,$parameters){
         
         $version_file                   = $path."/wp-includes/version.php";
         if(is_readable($version_file)){
