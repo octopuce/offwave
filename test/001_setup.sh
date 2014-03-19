@@ -6,10 +6,22 @@
 # This should extract all the version properly.
 
 # The script doesn't remove the testenv, and doesn't download any already existing application.
-#rm -rf testenv
+if ! type realpath | grep -q '/usr/bin' 2>/dev/null; then
+    echo "[!] Please install realpath (aptitude install realpath)";
+fi
+
+if [ -z $1 ]; then 
+    SOURCE="cms.txt"; 
+else 
+    SOURCE= realpath "$1"; 
+    if [ ! -f $SOURCE ]; then
+        echo "[!] $SOURCE is not a file.";
+        exit;
+    fi;
+done;
 mkdir -p testenv
 cd testenv
-cat ../cms.txt | while read CMS VERSION MODE URL
+cat SOURCE | while read CMS VERSION MODE URL
 do
 echo $CMS $VERSION $MODE $URL
     if [ -d "${CMS}-${VERSION}" ]
