@@ -83,7 +83,7 @@ class Offwave_Agents_Abstract{
      * @param array $parameters array which contains the array keys returned by previous check.
      * @return array the attributes of the found modules of application, or an empty or unchanged array.
      */
-    public function identifyPlugins($path,$parameters){
+    public function identifyModules($path,$parameters){
       return $parameters;
     }
     
