@@ -9,7 +9,7 @@ class Offwave_Agents_Cms_Joomla extends Offwave_Agents_Abstract {
         foreach($matchList as $file => $pattern){
             if(is_file($file)){
                 $file_content                 = file_get_contents($file);
-                preg_match($pattern, $file_content, $matches);
+                preg_match("%".preg_quote($pattern,"%")."%", $file_content, $matches);
                 if( isset($matches[1]) && !is_null($matches[1])){
                     return array(
                       "application"   => $this->getApplicationName(),
