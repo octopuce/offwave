@@ -103,7 +103,7 @@ class Offwave_Agents_Abstract{
                 if($this->_matchTree(array("tree" => $applicationTrees["allversion"], "path" => $path))) {
                     $knownVersion = array(
                         "application"   => $this->getApplicationName(),
-                        "version"       => "unidentified"
+                        "version"       => "allversion"
                     );
                 }else{
                   return array();
@@ -111,9 +111,9 @@ class Offwave_Agents_Abstract{
             }
 	  unset($applicationTrees["allversion"]);
 	}
-        foreach($applicationTrees as $application_version => $applicationTrees){
+        foreach($applicationTrees as $application_version => $tree){
             Offwave_Scanner::debug(" [?] Is version {$application_version} ?");
-            if($this->_matchTree(array("tree" => $applicationTrees,"path" => $path))){
+            if($this->_matchTree(array("tree" => $tree,"path" => $path))){
                 $knownVersion = array(
                     "application"   => $this->getApplicationName(),
                     "version"       => $application_version
