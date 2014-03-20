@@ -2,9 +2,9 @@
 # This script finds folders with a single child, moves the content within the parent
 # and destroys the now empty folder
 #
-
-WD=$(pwd);
-echo $WD
+if [ -z $1 ]; then echo "[!] Missing path."; exit; fi;
+WD=$1;
+echo "parsing $WD"
 for f in `find $WD -maxdepth 1 -not -iname "\.*" -type d `;do
     
     let count=0;

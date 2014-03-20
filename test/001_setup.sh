@@ -13,15 +13,16 @@ fi
 if [ -z $1 ]; then 
     SOURCE="cms.txt"; 
 else 
-    SOURCE= realpath "$1"; 
-    if [ ! -f $SOURCE ]; then
-        echo "[!] $SOURCE is not a file.";
-        exit;
-    fi;
-done;
+    SOURCE="$1"; 
+fi;
+SOURCE=`realpath $SOURCE`;
+if [ ! -f $SOURCE ]; then
+    echo "[!] $SOURCE is not a file.";
+    exit;
+fi;
 mkdir -p testenv
 cd testenv
-cat SOURCE | while read CMS VERSION MODE URL
+cat $SOURCE | while read CMS VERSION MODE URL
 do
 echo $CMS $VERSION $MODE $URL
     if [ -d "${CMS}-${VERSION}" ]
