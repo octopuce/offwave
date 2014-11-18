@@ -25,10 +25,10 @@ Please contact us (using license.txt file) if you are :
 Installation offwave-scan
 -------------------------
 
-git clone git@git.octopuce.fr:offwave-scan
-cd offwave-scan
-git submodule init
-git submodule update
+* git clone git@git.octopuce.fr:offwave-scan
+* cd offwave-scan
+* git submodule init
+* git submodule update
 
 Currently implemented Agents
 ----------------------------
