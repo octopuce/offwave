@@ -22,6 +22,13 @@ Please contact us (using license.txt file) if you are :
 * An application developer and want to include your application in our code,
 * A hosting provider or a hosting control panel development team.
 
+Installation offwave-scan
+-------------------------
+
+git clone git@git.octopuce.fr:offwave-scan
+cd offwave-scan
+git submodule init
+git submodule update
 
 Currently implemented Agents
 ----------------------------
